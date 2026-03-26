@@ -58,16 +58,21 @@
     .container { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
     .section { position: relative; padding: 96px 0; }
     .eyebrow {
+      position: relative;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 14px;
+      padding: 9px 14px;
       border-radius: 999px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       color: var(--muted);
       font-size: 0.92rem;
       letter-spacing: 0.02em;
+      line-height: 1.2;
+      max-width: min(100%, 520px);
+      animation: eyebrowFloat 4.6s ease-in-out infinite;
     }
     .eyebrow::before {
       content: "";
@@ -76,6 +81,30 @@
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--orange));
       box-shadow: 0 0 0 6px rgba(242,169,59,0.08);
+      animation: eyebrowDot 1.8s ease-in-out infinite;
+      flex: 0 0 auto;
+    }
+    .eyebrow::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0%, transparent 38%, rgba(255,255,255,0.16) 50%, transparent 62%, transparent 100%);
+      transform: translateX(-140%);
+      animation: eyebrowShine 5.8s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes eyebrowDot {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+    @keyframes eyebrowFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    @keyframes eyebrowShine {
+      0% { transform: translateX(-140%); }
+      16% { transform: translateX(140%); }
+      100% { transform: translateX(140%); }
     }
     .section-title {
       margin: 16px 0 12px;
@@ -1415,7 +1444,7 @@
       .section { padding: 76px 0; }
       .hero { padding-top: 62px; }
       .hero-visual { min-height: 580px; }
-      .hero-cards, .contact-grid, .form-grid, .logo-row, .hero-metrics, .segment-grid, .gallery-grid, .benefits-grid, .ers-proof { grid-template-columns: 1fr; }
+      .hero-cards, .contact-grid, .form-grid, .logo-row, .hero-metrics, .gallery-grid, .benefits-grid, .ers-proof { grid-template-columns: 1fr; }
       .gallery-item.wide { grid-column: span 1; }
       .impact-band { grid-template-columns: 1fr; }
       .radial-grid { grid-template-columns: 1fr; }
@@ -1423,6 +1452,41 @@
       .section-title { font-size: clamp(2rem, 8vw, 3rem); }
       .step { grid-template-columns: 1fr; }
       .step-number { width: 72px; min-height: 72px; }
+      .eyebrow {
+        font-size: .82rem;
+        padding: 10px 12px;
+        max-width: 100%;
+      }
+      .segment-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .segment-card {
+        min-height: auto;
+        display: grid;
+        grid-template-rows: 220px auto;
+      }
+      .segment-card img {
+        position: relative;
+        height: 220px;
+      }
+      .segment-card::after {
+        background: linear-gradient(180deg, rgba(8,12,17,0.02), rgba(8,12,17,0.48));
+      }
+      .segment-copy {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: -34px 14px 14px;
+        padding: 16px;
+      }
+      .segment-copy p {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
       .ers-stage {
         padding: 18px;
         gap: 14px;
@@ -1439,12 +1503,12 @@
         padding: 14px 14px;
       }
       .ers-score-badge strong {
-        font-size: 2.15rem;
-        letter-spacing: -0.04em;
+        font-size: 2.35rem;
+        letter-spacing: -0.03em;
       }
       .ers-score-badge .slash {
         display: inline-block;
-        padding: 0 4px;
+        padding: 0 6px;
       }
       .ers-dial-wrap {
         width: 232px;
@@ -1465,20 +1529,24 @@
         padding: 6px 10px;
       }
       .ers-core p {
-        max-width: 110px;
-        font-size: .76rem;
-        line-height: 1.2;
+        display: none;
       }
       .ers-mini-chart {
-        height: 60px;
-        gap: 8px;
+        height: 52px;
+        gap: 6px;
       }
       .bar-chart {
         height: 220px;
+        gap: 6px;
+        padding-top: 8px;
+      }
+      .bar-wrap {
         gap: 8px;
       }
       .bar {
-        max-width: 100%;
+        width: 78%;
+        max-width: 54px;
+        justify-self: center;
       }
       .bar-value {
         font-size: .92rem;
@@ -1527,7 +1595,7 @@
       <div class="particles" id="particles"></div>
       <div class="container hero-grid">
         <div class="reveal">
-          <div class="eyebrow">Nowa usługa premium od Exeliq Prime Sp. z o.o.</div>
+          <div class="eyebrow">Nowa usługa premium Exeliq</div>
           <h1>Zobacz, gdzie energia odbiera Ci pieniądze, bezpieczeństwo i przewidywalność.</h1>
           <p class="lead">
             Audyt Exeliq łączy pomiary, analizę strat, priorytety działań oraz autorski <strong>Certyfikat ERS Prime™</strong>.
@@ -1737,21 +1805,21 @@
             <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&fm=jpg&q=80&w=1600" alt="Dom z panelami słonecznymi" />
             <div class="segment-copy">
               <h3>Domy i mieszkania</h3>
-              <p>Niższe rachunki, większa kontrola nad zużyciem i lepsze przygotowanie pod magazyn energii, pompę ciepła lub modernizację.</p>
+              <p>Niższe rachunki, większa kontrola i lepsze przygotowanie do modernizacji.</p>
             </div>
           </article>
           <article class="segment-card" data-tilt>
             <img src="https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?auto=format&fit=crop&fm=jpg&q=80&w=1600" alt="Ekspert sprawdzający panele na dachu" />
             <div class="segment-copy">
               <h3>MŚP</h3>
-              <p>Większa przewidywalność kosztów energii, mniej zgadywania i jasna mapa działań z najlepszym zwrotem.</p>
+              <p>Większa przewidywalność kosztów i jasna mapa działań z najlepszym zwrotem.</p>
             </div>
           </article>
           <article class="segment-card" data-tilt>
             <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&fm=jpg&q=80&w=1600" alt="Duża infrastruktura energetyczna" />
             <div class="segment-copy">
               <h3>Przemysł i enterprise</h3>
-              <p>Analiza kosztów, ryzyk i odporności energetycznej tam, gdzie energia wpływa na ciągłość działania i bezpieczeństwo operacyjne.</p>
+              <p>Analiza kosztów, ryzyk i odporności tam, gdzie energia wpływa na ciągłość działania.</p>
             </div>
           </article>
         </div>
