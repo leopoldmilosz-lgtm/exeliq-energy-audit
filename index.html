@@ -153,6 +153,7 @@
       width: 100%;
     }
     .nav-shell {
+      position: relative;
       width: 100%;
       min-height: 84px;
       padding: 10px 24px;
@@ -188,6 +189,32 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .nav-toggle {
+      display: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(18,32,49,0.08);
+      background: rgba(255,255,255,0.9);
+      padding: 0;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-direction: column;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--text-dark);
+      transition: transform .24s ease, opacity .24s ease;
+    }
+    .nav-shell.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-shell.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+    .nav-shell.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
     .nav-links {
       display: flex;
       align-items: center;
@@ -1333,10 +1360,52 @@
     }
     @media (max-width: 900px) {
       .nav-shell {
-        overflow-x: auto;
-        justify-content: flex-start;
-        gap: 16px;
+        min-height: 76px;
+        padding: 12px 16px;
       }
+      .brand {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .brand img { width: 118px; }
+      .brand-copy strong { font-size: .96rem; }
+      .brand-copy span {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        flex: 0 0 auto;
+      }
+      .nav-links {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        top: calc(100% + 10px);
+        display: none;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 12px;
+        background: rgba(255,255,255,0.98);
+        border: 1px solid rgba(18,32,49,0.08);
+        border-radius: 22px;
+        box-shadow: 0 22px 50px rgba(0,0,0,0.18);
+      }
+      .nav-shell.nav-open .nav-links {
+        display: grid;
+      }
+      .nav-link {
+        width: 100%;
+        padding: 14px 14px;
+        border-radius: 14px;
+      }
+      .nav-link::before { display: none; }
+      .nav-cta {
+        display: inline-flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 4px;
+      }
+    }
       .nav-links { flex: 0 0 auto; }
       .brand { flex: 0 0 auto; }
       .brand img { width: 130px; }
@@ -1347,12 +1416,6 @@
       .hero { padding-top: 62px; }
       .hero-visual { min-height: 580px; }
       .hero-cards, .contact-grid, .form-grid, .logo-row, .hero-metrics, .segment-grid, .gallery-grid, .benefits-grid, .ers-proof { grid-template-columns: 1fr; }
-      .ers-point { grid-template-columns: 1fr; }
-      .ers-dial-wrap { width: 270px; height: 270px; }
-      .ers-score-badge, .ers-floating-card { position: relative; inset: auto; left: auto; right: auto; top: auto; bottom: auto; }
-      .ers-stage { display: grid; gap: 14px; padding: 24px; min-height: auto; }
-      .ers-dial-wrap { margin: 0 auto; }
-      .ers-mini-chart { position: relative; left: auto; right: auto; bottom: auto; height: 74px; }
       .gallery-item.wide { grid-column: span 1; }
       .impact-band { grid-template-columns: 1fr; }
       .radial-grid { grid-template-columns: 1fr; }
@@ -1360,13 +1423,78 @@
       .section-title { font-size: clamp(2rem, 8vw, 3rem); }
       .step { grid-template-columns: 1fr; }
       .step-number { width: 72px; min-height: 72px; }
-      .ers-certificate { inset: 82px 24px; }
+      .ers-stage {
+        padding: 18px;
+        gap: 14px;
+      }
+      .ers-stage-header,
+      .ers-stage-footer {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .ers-floating-card,
+      .ers-score-badge {
+        width: 100%;
+        min-width: 0;
+        padding: 14px 14px;
+      }
+      .ers-score-badge strong {
+        font-size: 2.15rem;
+        letter-spacing: -0.04em;
+      }
+      .ers-score-badge .slash {
+        display: inline-block;
+        padding: 0 4px;
+      }
+      .ers-dial-wrap {
+        width: 232px;
+        height: 232px;
+        margin: 0 auto;
+      }
+      .ers-core {
+        inset: 42px;
+        padding: 14px;
+      }
+      .ers-grade {
+        font-size: 3.7rem;
+        margin-bottom: 6px;
+      }
+      .ers-core .tag {
+        font-size: .72rem;
+        margin-bottom: 8px;
+        padding: 6px 10px;
+      }
+      .ers-core p {
+        max-width: 110px;
+        font-size: .76rem;
+        line-height: 1.2;
+      }
+      .ers-mini-chart {
+        height: 60px;
+        gap: 8px;
+      }
+      .bar-chart {
+        height: 220px;
+        gap: 8px;
+      }
+      .bar {
+        max-width: 100%;
+      }
+      .bar-value {
+        font-size: .92rem;
+      }
+      .bar-label {
+        font-size: .72rem;
+      }
+      .chart-card {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="nav-shell">
+    <div class="nav-shell" id="nav-shell">
       <a href="#hero" class="brand">
         <img src="https://static.wixstatic.com/media/c55d87_8e7c0f7817ef45ec8d149a0d39e13086~mv2.png/v1/fill/w_199,h_76,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/exeliq_!_auto_auto_1.png" alt="Exeliq logo" />
         <div class="brand-copy">
@@ -1374,7 +1502,10 @@
           <span>Premium audyt energetyczny dla domu, firmy i przemysłu</span>
         </div>
       </a>
-      <nav class="nav-links">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Otwórz menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="site-nav">
         <a class="nav-link" href="#proces">Proces</a>
         <a class="nav-link" href="#korzysci">Korzyści</a>
         <a class="nav-link" href="#dla-kogo">Dla kogo</a>
@@ -1768,7 +1899,7 @@
               <span>szybkie wykrycie obszarów strat</span>
             </div>
             <div class="ers-score-badge">
-              <strong><span data-count="83">83</span>/100</strong>
+              <strong><span data-count="83">83</span><span class="slash"> / </span>100</strong>
               <span>poziom ERS Prime™</span>
             </div>
           </div>
@@ -1779,7 +1910,7 @@
               <div>
                 <span class="tag">Autorski standard Exeliq</span>
                 <div class="ers-grade">A-</div>
-                <p>czytelny wynik poziomu obiektu</p>
+                <p>czytelny wynik obiektu</p>
               </div>
             </div>
           </div>
@@ -2025,6 +2156,7 @@
 
     document.querySelectorAll('[data-tilt]').forEach((card) => {
       card.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 900) return;
         const rect = card.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width - 0.5) * 7;
         const y = ((e.clientY - rect.top) / rect.height - 0.5) * -7;
@@ -2082,6 +2214,28 @@
         }
       );
     });
+
+    const navShell = document.getElementById('nav-shell');
+    const navToggle = document.getElementById('nav-toggle');
+    const siteNav = document.getElementById('site-nav');
+    if (navShell && navToggle && siteNav) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navShell.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      siteNav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          navShell.classList.remove('nav-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+          navShell.classList.remove('nav-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
   </script>
 </body>
 </html>
